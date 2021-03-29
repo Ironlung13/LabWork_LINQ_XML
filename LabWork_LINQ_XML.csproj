@@ -6,8 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="InputFile.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Text Files\InputFileTask1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Text Files\Sample.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
