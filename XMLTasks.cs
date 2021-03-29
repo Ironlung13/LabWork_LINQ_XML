@@ -24,8 +24,16 @@ namespace LabWork_LINQ_XML
              чисел из соответствующей строки.*/
 
             Console.WriteLine("Полученные данные из исходного файла:\n");
-            Console.WriteLine(File.ReadAllText(textFilePath));
-            Console.WriteLine();
+            try
+            {
+                Console.WriteLine(File.ReadAllText(textFilePath));
+                Console.WriteLine();
+            }
+            catch
+            {
+                Console.WriteLine("Error reading from file. Aborting.");
+                return;
+            }
             //Создаем элемент 0-го уровня root
             var data = new XElement("root");
             //Считываем данные с файла
@@ -103,9 +111,13 @@ namespace LabWork_LINQ_XML
                     Console.WriteLine("No Level 1 elements in file.");
                 }
             }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Error reading from file. Aborting.");
+            }
             catch
             {
-                Console.WriteLine("File error.");
+                Console.WriteLine("Something went horribly wrong. Aborting.");
             }
             finally
             {
