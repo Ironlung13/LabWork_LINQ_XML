@@ -96,10 +96,10 @@ namespace LabWork_LINQ_XML
                 if (level1.Count() != 0)
                 {
                     //Выбираем и сортируем с помощью LINQ
-                    var lvl1ElementsOrdered = from lvl1 in level1
-                                              orderby lvl1.Elements().Elements().Attributes().Count() descending,
-                                              lvl1.Name.ToString() ascending
-                                              select new { lvl1.Name, Count = lvl1.Elements().Elements().Attributes().Count() };
+                    var lvl1ElementsOrdered = from element in level1
+                                              orderby element.Elements().Elements().Attributes().Count() descending,
+                                              element.Name.ToString() ascending
+                                              select new { element.Name, Count = element.Elements().Elements().Attributes().Count() };
                     //Выводим в консоль
                     foreach (var element in lvl1ElementsOrdered)
                     {
@@ -124,6 +124,45 @@ namespace LabWork_LINQ_XML
                 Console.WriteLine("Enter to exit.");
                 Console.ReadLine();
             }
+        }
+
+        public static void XMLTasks3_26(string inputXMLFilePath = @"Text Files\Sample_1.xml")
+        {
+            /*Дан XML-документ. Для всех элементов документа удалить все их атрибуты, 
+              кроме первого. 
+              Указание. В предикате метода Where, отбирающем все атрибуты элемента, 
+              кроме первого, использовать метод
+              PreviousAttribute класса XAttribute.*/
+            //Загружаем документ
+            var document = XDocument.Load(inputXMLFilePath);
+            //Выбираем все элементы, которые содержат больше одного аттрибута
+            var data = from element in document.Descendants() where element.Attributes().Count() > 1 select element;
+            //Выбираем все аттрибуты, кроме первого
+            var edited = from attribute in data.Attributes() where attribute.PreviousAttribute != null select attribute;
+            //Удаляем эти аттрибуты
+            edited.Remove();
+            //Сохраняем преобразованный файл
+            document.Save(@"Text Files\Sample_1_Edited.xml");
+        }
+
+        public static void XMLTasks4_46(string inputXMLFilePath = @"Text Files\Sample_1.xml")
+        {
+            /*Дан XML-документ. Для каждого элемента,
+              имеющего дочерние элементы, добавить в конец его набора
+              атрибутов атрибут с именем odd-node-count и логическим значением, равным true, если суммарное количество
+              дочерних узлов у всех его дочерних элементов является нечетным, и false в противном случае.*/
+            var document = XDocument.Load(inputXMLFilePath);
+            var trueElements = from element in document.Descendants() where element.HasElements && element.DescendantNodes().Count() % 2 == 0 select element;
+            var falseElements = from element in document.Descendants() where element.HasElements && element.DescendantNodes().Count() % 2 != 0 select element;
+            foreach (var element in trueElements)
+            {
+                element.Add(new XAttribute("odd-node-count", true));
+            }
+            foreach (var element in falseElements)
+            {
+                element.Add(new XAttribute("odd-node-count", false));
+            }
+            document.Save(@"Text Files\Sample_2_edited.xml");
         }
     }
 }

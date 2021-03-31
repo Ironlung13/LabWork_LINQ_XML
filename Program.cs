@@ -10,6 +10,8 @@ namespace LabWork_LINQ_XML
             Console.WriteLine("Choose task:");
             Console.WriteLine("1: LinqXML6");
             Console.WriteLine("2: LinqXML16");
+            Console.WriteLine("3: LinqXML26");
+            Console.WriteLine("4: LinqXML46");
         TaskChoice:
             switch (Console.ReadLine())
             {
@@ -20,6 +22,14 @@ namespace LabWork_LINQ_XML
                 case "2":
                     Console.Clear();
                     XMLTasks.XMLTasks2_16();
+                    break;
+                case "3":
+                    Console.Clear();
+                    XMLTasks.XMLTasks3_26();
+                    break;
+                case "4":
+                    Console.Clear();
+                    XMLTasks.XMLTasks4_46();
                     break;
                 default:
                     goto TaskChoice;
