@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -196,7 +197,7 @@ namespace LabWork_LINQ_XML
             document.Save(@"Text Files\Task4Result.xml");
         }
 
-        public static void XMLTasks6_76(string inputXMLFilePath)
+        public static void XMLTasks6_76(string inputXMLFilePath = @"Text Files\Debt.xml")
         {
             /*Дан XML-документ с информацией о задолженности по оплате коммунальных услуг. Образец элемента первого уровня:
               <record>
@@ -221,6 +222,43 @@ namespace LabWork_LINQ_XML
               </debt>
 
               Порядок следования элементов первого уровня не изменять*/
+
+            //Загружаем документ
+            var document = XDocument.Load(inputXMLFilePath);
+            //Выбираем первоначальные элементы
+            var initial = from element in document.Root.Elements() where element.Name == "record" select element;
+            //Для каждого первоначального элемента создаем новый элемент нового типа (не удаляем изначальные элементы, чтобы не прервать итерацию foreach)
+            foreach (var record in initial)
+            {
+                XElement debt;
+                //Проверки на формат числа в элементе <debt>
+                try
+                {
+                    float value = float.Parse(record.Element("debt").Value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+                    debt = new XElement("debt", record.Element("name"), new XElement("value", value));
+                }
+                catch (FormatException)
+                {
+                    try
+                    {
+                        float value = float.Parse(record.Element("debt").Value);
+                        debt = new XElement("debt", record.Element("name"), new XElement("value", value));
+                    }
+                    catch(FormatException)
+                    {
+                        debt = new XElement("debt", record.Element("name"), new XElement("value", record.Element("debt").Value));
+                    }
+                }
+                //Добавляем аттрибуты
+                debt.Add(new XAttribute("house", record.Element("house").Value));
+                debt.Add(new XAttribute("flat", record.Element("flat").Value));
+                //Добавляем в документ
+                document.Root.Add(debt);
+            }
+            //Удаляем начальные элементы, оставляя только элементы нового типа
+            initial.Remove();
+            //Сохраняем
+            document.Save(@"Text Files\Debt_edited.xml");
         }
     }
 }

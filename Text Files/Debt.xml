@@ -1,0 +1,44 @@
+<root>
+	<record>
+		<house>12</house>
+		<flat>129</flat>
+		<name>Сергеев Т.М.</name>
+		<debt>1833.32</debt>
+	</record>
+	<record>
+		<house>14</house>
+		<flat>28</flat>
+		<name>Степанов А.А.</name>
+		<debt>280.00</debt>
+	</record>
+	<record>
+		<house>14</house>
+		<flat>100</flat>
+		<name>Алексеев С.Н.</name>
+		<debt>2000.32</debt>
+	</record>
+	<record>
+		<house>7</house>
+		<flat>144</flat>
+		<name>Соболев Н.Н.</name>
+		<debt>1337.30</debt>
+	</record>
+	<record>
+		<house>7</house>
+		<flat>143</flat>
+		<name>Василевский К.В.</name>
+		<debt>420,69</debt>
+	</record>
+	<record>
+		<house>12</house>
+		<flat>120</flat>
+		<name>Сизоненко А.П.</name>
+		<debt>333.33</debt>
+	</record>
+	<record>
+		<house>12</house>
+		<flat>129</flat>
+		<name>Алексиевич Т.Т.</name>
+		<debt>900,00</debt>
+	</record>
+</root>
