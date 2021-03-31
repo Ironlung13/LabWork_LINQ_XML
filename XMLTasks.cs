@@ -145,6 +145,7 @@ namespace LabWork_LINQ_XML
             edited.Remove();
             //Сохраняем преобразованный файл
             document.Save(@"Text Files\Task2Result.xml");
+            Console.WriteLine("Сохранено в файл [Text Files\\Task2Result.xml]");
         }
 
         public static void XMLTasks4_46(string inputXMLFilePath = @"Text Files\Sample_1.xml")
@@ -169,6 +170,7 @@ namespace LabWork_LINQ_XML
             }
             //Сохраняем
             document.Save(@"Text Files\Task3Result.xml");
+            Console.WriteLine("Сохранено в файл [Text Files\\Task3Result.xml]");
         }
 
         public static void XMLTasks5_58(string S, string inputXMLFilePath = @"Text Files\Sample_1.xml")
@@ -195,6 +197,7 @@ namespace LabWork_LINQ_XML
             }
             //Сохраняем
             document.Save(@"Text Files\Task4Result.xml");
+            Console.WriteLine("Сохранено в файл [Text Files\\Task4Result.xml]");
         }
 
         public static void XMLTasks6_76(string inputXMLFilePath = @"Text Files\Debt.xml")
@@ -225,6 +228,8 @@ namespace LabWork_LINQ_XML
 
             //Загружаем документ
             var document = XDocument.Load(inputXMLFilePath);
+            Console.WriteLine("Начальный вид файла:");
+            Console.WriteLine(document);
             //Выбираем первоначальные элементы
             var initial = from element in document.Root.Elements() where element.Name == "record" select element;
             //Для каждого первоначального элемента создаем новый элемент нового типа (не удаляем изначальные элементы, чтобы не прервать итерацию foreach)
@@ -259,6 +264,9 @@ namespace LabWork_LINQ_XML
             initial.Remove();
             //Сохраняем
             document.Save(@"Text Files\Debt_edited.xml");
+            Console.WriteLine("\n\nПреобразованный файл:");
+            Console.WriteLine(document);
+            Console.WriteLine("Сохранено в файл [Text Files\\Debt_edited.xml]");
         }
     }
 }
