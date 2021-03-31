@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using System.Xml;
 
 namespace LabWork_LINQ_XML
 {
@@ -152,8 +153,11 @@ namespace LabWork_LINQ_XML
               атрибутов атрибут с именем odd-node-count и логическим значением, равным true, если суммарное количество
               дочерних узлов у всех его дочерних элементов является нечетным, и false в противном случае.*/
             var document = XDocument.Load(inputXMLFilePath);
-            var trueElements = from element in document.Descendants() where element.HasElements && element.DescendantNodes().Count() % 2 == 0 select element;
-            var falseElements = from element in document.Descendants() where element.HasElements && element.DescendantNodes().Count() % 2 != 0 select element;
+            //Выбираем элементы, которые должны быть помечены true
+            var trueElements = from element in document.Descendants() where element.HasElements && element.DescendantNodes().Count() % 2 != 0 select element;
+            //Теперь те, что false
+            var falseElements = from element in document.Descendants() where element.HasElements && element.DescendantNodes().Count() % 2 == 0 select element;
+            //Добавляем аттрибуты
             foreach (var element in trueElements)
             {
                 element.Add(new XAttribute("odd-node-count", true));
@@ -163,6 +167,27 @@ namespace LabWork_LINQ_XML
                 element.Add(new XAttribute("odd-node-count", false));
             }
             document.Save(@"Text Files\Sample_2_edited.xml");
+        }
+
+        public static void XMLTasks5_58(string S, string inputXMLFilePath = @"Text Files\Sample_1.xml")
+        {
+            /*Дан XML-документ и строка S, содержащая некоторое пространство имен. Определить в корневом элементе
+              префикс node, связанный с пространством имен, заданным в
+              строке S, и добавить в каждый элемент первого уровня два
+              атрибута: атрибут node:count со значением, равным количеству потомков-узлов для данного элемента, и атрибут
+              xml:count со значением, равным количеству потомковэлементов для данного элемента (xml — префикс пространства имен XML).
+              Указание. Использовать свойство Xml класса XNamespace*/
+
+            var document = XDocument.Load(inputXMLFilePath);
+            XNamespace ns = S;
+            document.Root.Name = ns + document.Root.Name.ToString();
+            document.Root.Add(new XAttribute(XNamespace.Xmlns + "node", S));
+            foreach (var element in document.Root.Elements())
+            {
+                element.Add(new XAttribute(ns + "count", element.DescendantNodes().Count()));
+                element.Add(new XAttribute(XNamespace.Xml + "count", element.Descendants().Count()));
+            }
+            document.Save(@"Text Files\Sample_3_edited.xml");
         }
     }
 }
